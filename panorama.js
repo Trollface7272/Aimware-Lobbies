@@ -84,9 +84,7 @@ var registerButton = `
 `
 var url = "20.52.136.139:3000"
 
-var DEBUG = true
-
-if (typeof(lobbiesLoaded) != "undefined" || DEBUG) {
+if (typeof(lobbiesLoaded) != "undefined") {
 var HackeLobby = {
 	Registered: false,
     OnLoad: function() {
@@ -94,11 +92,9 @@ var HackeLobby = {
         this._CreateRegisterButton()
 	},
 	OnUnload: function() {
-		$.Msg($.GetContextPanel().FindChildrenWithClassTraverse("aimware-lobbies").length)
 		$.GetContextPanel().GetChild(0).FindChildTraverse("JsFriendsList-lobbies").GetChild(0).GetChild(0)
 		let arr = $.GetContextPanel().FindChildrenWithClassTraverse("aimware-lobbies")
 		for(let i = 0; i < arr.length; i++) {
-			$.Msg(arr[i])
 			arr[i].DeleteAsync(1)
 		}
 		HackeLobby = undefined
@@ -199,7 +195,7 @@ var HackeLobby = {
 
             for (let i = 0; i < players.length; i++) {
                 const el = players[i];
-                //if (el.steamId == MyPersonaAPI.GetXuid()) continue
+                if (el.steamId == MyPersonaAPI.GetXuid()) continue
                 var player = $.CreatePanel("Panel", playersDisplay, el.steamId)
                 player.BLoadLayoutFromString(friendTile, false, false)
                 player.SetAttributeString("xuid", el.steamId)
