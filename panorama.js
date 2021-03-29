@@ -140,6 +140,7 @@ var HackeLobby = {
         })
 	},
     UnRegister: function() {
+		$.Msg("Register -> " + this.Registered)
         $.AsyncWebRequest("http://"+url+"/unregister",  { 
             type: 'POST', 
             data: {
@@ -157,6 +158,7 @@ var HackeLobby = {
         })
     },
     Register: function() {
+		$.Msg("Register -> " + this.Registered)
         if (!this.Registered) return
         $.AsyncWebRequest("http://"+url+"/register",  { 
             type: 'POST', 
@@ -195,7 +197,7 @@ var HackeLobby = {
 
             for (let i = 0; i < players.length; i++) {
                 const el = players[i];
-                if (el.steamId == MyPersonaAPI.GetXuid()) continue
+                //if (el.steamId == MyPersonaAPI.GetXuid()) continue
                 var player = $.CreatePanel("Panel", playersDisplay, el.steamId)
                 player.BLoadLayoutFromString(friendTile, false, false)
                 player.SetAttributeString("xuid", el.steamId)
