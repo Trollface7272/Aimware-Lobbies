@@ -189,7 +189,7 @@ var HackeLobby = {
                     steamId: data[0],
                     name: data[1],
                     skillGroup: data[2],
-                    prime: data[3],
+                    prime: data[3] == "true",
                     flag: data[4]
                 })
             }
