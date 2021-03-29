@@ -84,7 +84,7 @@ var registerButton = `
 `
 var url = "20.52.136.139:3000"
 
-if (typeof(lobbiesLoaded) != "undefined") {
+
 var HackeLobby = {
 	Registered: false,
     OnLoad: function() {
@@ -315,5 +315,3 @@ var FriendAdvertiseTile = ( function (){
 
 })();
 HackeLobby.OnLoad()
-lobbiesLoaded = true
-}
