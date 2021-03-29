@@ -197,7 +197,7 @@ var HackeLobby = {
 
             for (let i = 0; i < players.length; i++) {
                 const el = players[i];
-                //if (el.steamId == MyPersonaAPI.GetXuid()) continue
+                if (el.steamId == MyPersonaAPI.GetXuid()) continue
                 var player = $.CreatePanel("Panel", playersDisplay, el.steamId)
                 player.BLoadLayoutFromString(friendTile, false, false)
                 player.SetAttributeString("xuid", el.steamId)
