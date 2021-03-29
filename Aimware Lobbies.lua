@@ -1,10 +1,4 @@
 local lastTime = 0
-local function Search() 
-	if globals.TickCount() - lastTime > 64 * 30 then
-		RunScript([[HackeLobby.Register()]])
-		lastTime = globals.TickCount()
-	end
-end
 
 local function RunScript(script)
 	if panorama.RunScript then
@@ -12,6 +6,13 @@ local function RunScript(script)
 	end
 	if panorama.loadstring then
 		panorama.loadstring(script, "CSGOMainMenu")()
+	end
+end
+
+local function Search() 
+	if globals.TickCount() - lastTime > 64 * 30 then
+		RunScript([[HackeLobby.Register()]])
+		lastTime = globals.TickCount()
 	end
 end
 
