@@ -5,7 +5,7 @@ var buttonLayout = `
 			class="IconButton friendslist-navbar-lobby-button aimware-lobbies" onactivate=""
 			onmouseover="UiToolkitAPI.ShowTextTooltip('JsFriendsList-lobbies-toolbar-button-aimware', 'Aimware lobbies');"
 			onmouseout="UiToolkitAPI.HideTextTooltip();">
-	<Image src="https://i.imgur.com/L42LMXU.png"/>
+	<Image src="https://i.imgur.com/smnaeRh.png"/>
 </RadioButton>
 `
 var friendTile = `
@@ -78,7 +78,7 @@ var registerButton = `
 					class="mainmenu-navbar__btn-small"
 					onmouseover="UiToolkitAPI.ShowTextTooltip('LobbyRegisterButton','Search for a lobby');"
 					onmouseout="UiToolkitAPI.HideTextTooltip();">
-				<Image src="https://i.imgur.com/L42LMXU.png" id="RegisterButtonActive" />
+				<Image texturewidth="48" textureheight="-1" src="https://i.imgur.com/smnaeRh.png" id="RegisterButtonActive" />
 		</RadioButton>
 	</Panel>
 </root>
