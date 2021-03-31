@@ -1,3 +1,4 @@
+var dev = true
 var buttonLayout = `
 <RadioButton id="JsFriendsList-lobbies-toolbar-button-aimware"
 			group="JsFriendsList-lobbies-toolbar-button-modegroup"
@@ -77,7 +78,7 @@ var registerButton = `
 					class="mainmenu-navbar__btn-small"
 					onmouseover="UiToolkitAPI.ShowTextTooltip('LobbyRegisterButton','Search for a lobby');"
 					onmouseout="UiToolkitAPI.HideTextTooltip();">
-				<Image src="https://i.imgur.com/L42LMXU.png" />
+				<Image src="https://i.imgur.com/L42LMXU.png" id="RegisterButtonActive" />
 		</RadioButton>
 	</Panel>
 </root>
@@ -87,9 +88,11 @@ var url = "20.52.136.139:3000"
 
 var HackeLobby = {
 	Registered: false,
+	token: null,
     OnLoad: function() {
         this._CreateLobbyButton()
-        this._CreateRegisterButton()
+		this._CreateRegisterButton()
+		$.Msg($.GetContextPanel().FindChildTraverse("RegisterButtonActive"))
 	},
 	OnUnload: function() {
 		$.GetContextPanel().GetChild(0).FindChildTraverse("JsFriendsList-lobbies").GetChild(0).GetChild(0)
@@ -131,8 +134,9 @@ var HackeLobby = {
 
 		var button = panel.FindChildTraverse("LobbyRegisterButton")
 
+
         button.SetPanelEvent("onactivate", () => {
-            this.Registered = !this.Registered
+			this.Registered = !this.Registered
             if (this.Registered)
                 this.Register()
             else 
@@ -148,7 +152,8 @@ var HackeLobby = {
                 name: MyPersonaAPI.GetName(),
                 skillGroup: MyPersonaAPI.GetCompetitiveRank(),
                 prime: MyPersonaAPI.GetCurrentLevel() > 20 || MyPersonaAPI.HasPrestige(),
-                flag: MyPersonaAPI.GetMyCountryCode()
+				flag: MyPersonaAPI.GetMyCountryCode(),
+				token: this.token
             }, complete: (res, err) => {
                 if (err !== "success") {
                     $.Msg("Error: " + err)
@@ -167,7 +172,8 @@ var HackeLobby = {
                 name: MyPersonaAPI.GetName(),
                 skillGroup: MyPersonaAPI.GetCompetitiveRank(),
                 prime: MyPersonaAPI.GetCurrentLevel() > 20 || MyPersonaAPI.HasPrestige(),
-                flag: MyPersonaAPI.GetMyCountryCode()
+				flag: MyPersonaAPI.GetMyCountryCode(),
+				token: this.token || this.GenToken()
             }, complete: (res, err) => {
                 if (err !== "success") {
                     $.Msg("Error: " + err)
@@ -177,7 +183,9 @@ var HackeLobby = {
         })
     },
     _ClickedLobbies: function() {
-        $.AsyncWebRequest("http://"+url+"/load",  { type: 'POST', data: {}, complete: (res, err) => {
+        $.AsyncWebRequest("http://"+url+"/load",  { type: 'POST', data: {
+				steamId: MyPersonaAPI.GetXuid()
+		}, complete: (res, err) => {
             var playersDisplay =  $.GetContextPanel().GetChild(0).FindChildTraverse("JsFriendsList-lobbies").FindChildTraverse("JsFriendsList-List")
             playersDisplay.RemoveAndDeleteChildren()
             if (!res.responseText) return
@@ -196,8 +204,9 @@ var HackeLobby = {
 
 
             for (let i = 0; i < players.length; i++) {
-                const el = players[i];
-                if (el.steamId == MyPersonaAPI.GetXuid()) continue
+				const el = players[i];
+				if (!dev)
+                	if (el.steamId == MyPersonaAPI.GetXuid()) continue
                 var player = $.CreatePanel("Panel", playersDisplay, el.steamId)
                 player.BLoadLayoutFromString(friendTile, false, false)
                 player.SetAttributeString("xuid", el.steamId)
@@ -207,9 +216,16 @@ var HackeLobby = {
         } 
     })
     },
-    _ClickedRegister: function() {
-
-    },
+    GenToken: function() {
+		var result           = ''
+		var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+		var charactersLength = characters.length
+		for ( var i = 0; i < 32; i++ ) 
+		   result += characters.charAt(Math.floor(Math.random() * charactersLength))
+		
+		this.token = result
+		return result
+	},
     PrintChildren: function(obj, depth) {
         if (obj.GetChildCount)
         for (var i = 0; i < obj.GetChildCount(); i++) {
