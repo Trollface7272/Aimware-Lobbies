@@ -1,4 +1,4 @@
-var dev = true
+var dev = false
 var buttonLayout = `
 <RadioButton id="JsFriendsList-lobbies-toolbar-button-aimware"
 			group="JsFriendsList-lobbies-toolbar-button-modegroup"
