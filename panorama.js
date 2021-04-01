@@ -2,7 +2,7 @@ var dev = false
 var buttonLayout = `
 <RadioButton id="JsFriendsList-lobbies-toolbar-button-aimware"
 			group="JsFriendsList-lobbies-toolbar-button-modegroup"
-			class="IconButton friendslist-navbar-lobby-button aimware-lobbies" onactivate=""
+			class="IconButton friendslist-navbar-lobby-button aimware-lobbies" onactivate="friendsList.SetLobbiesTabListFilters( null );"
 			onmouseover="UiToolkitAPI.ShowTextTooltip('JsFriendsList-lobbies-toolbar-button-aimware', 'Aimware lobbies');"
 			onmouseout="UiToolkitAPI.HideTextTooltip();">
 	<Image src="https://i.imgur.com/smnaeRh.png"/>
@@ -74,16 +74,16 @@ var registerButton = `
 	</styles>
 	
 	<Panel class="horizontal-center aimware-lobbies">
-		<RadioButton id="LobbyRegisterButton"
+		<ToggleButton id="LobbyRegisterButton"
 					class="mainmenu-navbar__btn-small"
 					onmouseover="UiToolkitAPI.ShowTextTooltip('LobbyRegisterButton','Search for a lobby');"
 					onmouseout="UiToolkitAPI.HideTextTooltip();">
 				<Image texturewidth="48" textureheight="-1" src="https://i.imgur.com/smnaeRh.png" id="RegisterButtonActive" />
-		</RadioButton>
+		</ToggleButton>
 	</Panel>
 </root>
 `
-var url = "20.52.136.139:3000"
+var url = dev ? "localhost:3000" : "20.52.136.139:3000"
 
 
 var HackeLobby = {
@@ -191,7 +191,7 @@ var HackeLobby = {
             if (!res.responseText) return
             var players = []
             for (let i = 0; i < res.responseText.split("\n").length; i++) {
-                var data = res.responseText.split("\n")[i].split(":")
+                let data = res.responseText.split("\n")[i].split(":")
                 if (data.length !== 5) continue
                 players.push({
                     steamId: data[0],
@@ -207,7 +207,7 @@ var HackeLobby = {
 				const el = players[i];
 				if (!dev)
                 	if (el.steamId == MyPersonaAPI.GetXuid()) continue
-                var player = $.CreatePanel("Panel", playersDisplay, el.steamId)
+                let player = $.CreatePanel("Panel", playersDisplay, el.steamId)
                 player.BLoadLayoutFromString(friendTile, false, false)
                 player.SetAttributeString("xuid", el.steamId)
                 FriendAdvertiseTile.Init(player, el)
@@ -217,10 +217,10 @@ var HackeLobby = {
     })
     },
     GenToken: function() {
-		var result           = ''
-		var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-		var charactersLength = characters.length
-		for ( var i = 0; i < 32; i++ ) 
+		let result           = ''
+		let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+		let charactersLength = characters.length
+		for (let i = 0; i < 32; i++) 
 		   result += characters.charAt(Math.floor(Math.random() * charactersLength))
 		
 		this.token = result
