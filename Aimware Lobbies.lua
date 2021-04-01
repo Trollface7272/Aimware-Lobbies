@@ -10,9 +10,9 @@ local function RunScript(script)
 end
 
 local function Search() 
-	if globals.TickCount() - lastTime > 64 * 30 then
+	if globals.RealTime() - lastTime > 30 then
 		RunScript([[HackeLobby.Register()]])
-		lastTime = globals.TickCount()
+		lastTime = globals.RealTime()
 	end
 end
 
