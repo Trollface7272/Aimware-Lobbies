@@ -163,7 +163,7 @@ var HackeLobby = {
         })
     },
     Register: function() {
-		$.Msg("Register -> " + this.Registered)
+	//$.Msg("Register -> " + this.Registered)
         if (!this.Registered) return
         $.AsyncWebRequest("http://"+url+"/register",  { 
             type: 'POST', 
