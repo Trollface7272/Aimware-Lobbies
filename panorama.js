@@ -145,7 +145,6 @@ var Lobbies = {
                         $.Msg("Error: " + err)
                         $.Msg(res)
                     }
-                    $.Msg(res)
                     this.Token = (JSON.parse(res.responseText.slice(0,-1)).token)
                 }
             })
@@ -167,7 +166,6 @@ var Lobbies = {
             let ref = this
             var callbackFunction = function (mode) {
                 ref.Active = mode
-                $.Msg("State: " + mode)
                 if (mode !== -1)
                     ref.SendRegister()
                 else ref.SendUnregister()
@@ -216,19 +214,6 @@ var Lobbies = {
                     let playersDisplay = $.GetContextPanel().FindChildTraverse("JsFriendsList-lobbies").FindChildTraverse("JsFriendsList-List")
                     playersDisplay.RemoveAndDeleteChildren()
                     var players = JSON.parse(res.responseText.slice(0, -1))
-                    /*for (let i = 0; i < res.responseText.split("\n").length; i++) {
-                        let data = res.responseText.split("\n")[i].split(":")
-                        if (data.length !== 5) continue
-                        players.push({
-                            steamId: data[0],
-                            name: data[1],
-                            skillGroup: data[2],
-                            prime: data[3] == "true",
-                            flag: data[4]
-                        })
-                        $.Msg(data[2])
-                    }*/
-                    $.Msg("here " + players.length)
                     for (let i = 0; i < players.length; i++) {
                         const el = players[i];
                         if (!dev)
