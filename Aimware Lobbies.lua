@@ -1,26 +1,24 @@
+local RunScript = panorama.RunScript
+local version = "2"
 local lastTime = 0
 
-local function RunScript(script)
-	if panorama.RunScript then
-		panorama.RunScript(script)
-	end
-	if panorama.loadstring then
-		panorama.loadstring(script, "CSGOMainMenu")()
-	end
-end
+local newestVer = http.Get("https://raw.githubusercontent.com/Trollface7272/Aimware-Lobbies/main/.version")
+local newestVer = newestVer:sub(1, #newestVer - 1)
+
+if version ~= newestVer then RunScript('$.Msg("Download new version! https://aimware.net/forum/thread/149882")') error("Download new version! https://aimware.net/forum/thread/149882") end
 
 local function Search() 
-	if globals.RealTime() - lastTime > 30 then
-		RunScript([[HackeLobby.Register()]])
+	if globals.RealTime() - lastTime > 60 then
+		RunScript([[if (Lobbies) Lobbies.RegisterButton.SendRegister()]])
 		lastTime = globals.RealTime()
 	end
 end
 
 local function Unload()
-	RunScript([[HackeLobby.OnUnload()]])
+	RunScript([[if (Lobbies) Lobbies.Unload()]])
 end
 
-local js = http.Get("https://raw.githubusercontent.com/Trollface7272/Aimware-Lobbies/main/panorama.js")
-RunScript(js)
+local script = http.Get("https://raw.githubusercontent.com/Trollface7272/Aimware-Lobbies/main/panorama.js")
+RunScript(script)
 callbacks.Register("Unload", Unload)
 callbacks.Register("Draw", Search)
